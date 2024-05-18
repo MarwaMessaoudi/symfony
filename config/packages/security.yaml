@@ -37,3 +37,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/tour/package/\d+/reserve, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/tour/package, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/list, roles: IS_AUTHENTICATED_ANONYMOUSLY }

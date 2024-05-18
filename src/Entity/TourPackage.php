@@ -61,12 +61,12 @@ class TourPackage
         return $this;
     }
 
-    public function getDecription(): ?string
+    public function getDescription(): ?string
     {
         return $this->decription;
     }
 
-    public function setDecription(string $decription): self
+    public function setDescription(string $decription): self
     {
         $this->decription = $decription;
 

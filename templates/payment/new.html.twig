@@ -1,0 +1,39 @@
+{% block title %}Payment Form{% endblock %}
+
+{% block body %}
+<style>
+    /* Your styles */
+</style>
+
+<div class="form-container">
+    <div class="form-header">
+        <img src="{{ asset('image/cap.png') }}" alt="Logo">
+        <h1>Formulaire de paiement</h1>
+    </div>
+
+    <h2>Reservation Details</h2>
+    <p><strong>Name:</strong> {{ reservation.tourPackage.nom }}</p>
+    <p><strong>Description:</strong> {{ reservation.tourPackage.description }}</p>
+    <p><strong>Start Date:</strong> {{ reservation.dateDepart|date('Y-m-d') }}</p>
+    <p><strong>End Date:</strong> {{ reservation.dateFin|date('Y-m-d') }}</p>
+    <p><strong>Number of Persons:</strong> {{ reservation.nbrPersonne }}</p>
+    <p><strong>Total Price:</strong> {{ reservation.total }} €</p>
+
+    <form id="payment-form" method="post" action="{{ path('payment_new', {'reservationId': reservation.id}) }}">
+        {{ form_rest(form) }}
+
+        {{ form_row(form.NomPrenom) }}
+        {{ form_row(form.adresse) }}
+        {{ form_row(form.numtel) }}
+        {{ form_row(form.methodePayement) }}
+        {{ form_row(form.numCarte) }}
+        {{ form_row(form.codeSecurite) }}
+        {{ form_row(form.prixTotal) }}
+        {{ form_row(form.payementFlight) }}
+        {{ form_row(form.payementHotel) }}
+        {{ form_row(form.peyementTour) }}
+
+        <button type="submit" class="btn btn-primary">Confirmer le paiement</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+
+{% block title %}Reserve Tour Package{% endblock %}
+
+{% block body %}
+    <h1>Reserve Tour Package</h1>
+
+    <h2>Tour Package Details</h2>
+    <p><strong>Name:</strong> {{ tourPackage.nom }}</p>
+    <p><strong>Description:</strong> {{ tourPackage.description }}</p>
+    <p><strong>Price per person:</strong> <span id="pricePerPerson">{{ tourPackage.prix }}</span> €</p>
+
+    <h2>Modify Reservation Details</h2>
+    {{ form_start(form) }}
+    {{ form_row(form.dateDepart) }}
+    {{ form_row(form.dateFin) }}
+    {{ form_row(form.nbrPersonne) }}
+
+    <div>
+        <p><strong>Total Price:</strong> <span id="totalPrice">0</span> €</p>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Reserve</button>
+    {{ form_end(form) }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pricePerPerson = parseFloat(document.getElementById('pricePerPerson').textContent);
+            const nbrPersonneInput = document.querySelector('input[name="reservation_tour[nbrPersonne]"]');
+            const totalPriceElement = document.getElementById('totalPrice');
+
+            function updateTotalPrice() {
+                const nbrPersonne = parseInt(nbrPersonneInput.value, 10);
+                const totalPrice = pricePerPerson * nbrPersonne;
+                totalPriceElement.textContent = totalPrice.toFixed(2);
+            }
+
+            nbrPersonneInput.addEventListener('input', updateTotalPrice);
+            updateTotalPrice(); // Initialize total price on page load
+        });
+    </script>
+{% endblock %}
