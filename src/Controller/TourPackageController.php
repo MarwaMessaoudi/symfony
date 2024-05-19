@@ -33,7 +33,7 @@ public function __construct(Security $security)
      */
     public function index(): Response
     {
-        return $this->render('tour_package/index.html.twig', [
+        return $this->render('tourPackage/index.html.twig', [
             'controller_name' => 'TourPackageController',
         ]);
     }
@@ -46,7 +46,7 @@ public function __construct(Security $security)
     public function list(): Response
     {
         $tourPackages = $this->getDoctrine()->getRepository(TourPackage::class)->findAll();
-
+    
         return $this->render('tourPackage/list.html.twig', [
             'tourPackages' => $tourPackages,
         ]);
@@ -63,45 +63,44 @@ public function __construct(Security $security)
             $this->addFlash('error', 'You must be logged in to make a reservation.');
             return $this->redirectToRoute('app_login');
         }
-
+    
         $tourPackage = $entityManager->getRepository(TourPackage::class)->find($id);
-
+    
         if (!$tourPackage) {
             $this->addFlash('error', 'Tour package not found.');
             return $this->redirectToRoute('tourpackage_list');
         }
-
+    
         $reservation = new ReservationTour();
         $reservation->setTourPackage($tourPackage);
         $reservation->setNbrPersonne(1); // Set a default value for number of persons
-
+    
         $form = $this->createForm(ReservationTourType::class, $reservation);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $startDate = $form->get('dateDepart')->getData();
             $endDate = $form->get('dateFin')->getData();
             $nbrPersonne = $form->get('nbrPersonne')->getData();
             $total = $tourPackage->getPrix() * $nbrPersonne;
-
+    
             // Set reservation details
             $reservation->setDateDepart($startDate);
             $reservation->setDateFin($endDate);
             $reservation->setNbrPersonne($nbrPersonne);
             $reservation->setTotal($total);
             $reservation->setClient($user);
-
+    
             // Persist reservation
             $entityManager->persist($reservation);
             $entityManager->flush();
-
+    
             // Redirect to payment form with reservation ID
             return $this->redirectToRoute('payment_new', ['reservationId' => $reservation->getId()]);
         }
-
+    
         return $this->render('tourPackage/reserve.html.twig', [
             'form' => $form->createView(),
             'tourPackage' => $tourPackage,
         ]);
-    }
-}
+    }}

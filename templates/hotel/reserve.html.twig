@@ -1,0 +1,41 @@
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<h1 class="page-title">Réserver l'hôtel {{ hotel.nom }}</h1>
+
+<div class="reservation-form">
+    <h2>Détails de l'Hôtel</h2>
+    <p><strong>Nom :</strong> {{ hotel.nom }}</p>
+    <p><strong>Description :</strong> {{ hotel.adresse }}</p>
+    <p><strong>Prix par chambre :</strong> <span id="pricePerRoom">{{ hotel.prix }}</span> €</p>
+    
+    {{ form_start(form) }}
+        {{ form_row(form.dateDebut, {'label': 'Date de début'}) }}
+        {{ form_row(form.dateFin, {'label': 'Date de fin'}) }}
+        {{ form_row(form.nbrChambre, {'label': 'Nombre de chambres'}) }}
+        {{ form_row(form.nbrPersonne, {'label': 'Nombre de personnes'}) }}
+        {{ form_widget(form.Total, {'attr': {'id': 'totalPrice'}}) }}
+        <button type="submit" class="btn btn-primary">Réserver</button>
+    {{ form_end(form) }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pricePerRoom = parseFloat(document.getElementById('pricePerRoom').textContent);
+            const nbrChambreInput = document.querySelector('input[name="reservation_hotel[nbrChambre]"]');
+            const totalPriceInput = document.getElementById('totalPrice');
+
+            function updateTotalPrice() {
+                const nbrChambre = parseInt(nbrChambreInput.value, 10);
+                const totalPrice = pricePerRoom * nbrChambre;
+                totalPriceInput.value = totalPrice.toFixed(2);
+            }
+
+            nbrChambreInput.addEventListener('input', updateTotalPrice);
+            updateTotalPrice(); // Initialize total price on page load
+        });
+    </script>
+</div>
+{% endblock %}

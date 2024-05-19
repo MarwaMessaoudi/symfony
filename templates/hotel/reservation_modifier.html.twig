@@ -1,0 +1,121 @@
+
+
+{% block stylesheets %}
+<style>
+    /* Styles spécifiques pour cette page */
+    body {
+        background-color: #f3f1e7; /* Couleur de fond douce pour le corps */
+        color: #4d2e0f; /* Couleur du texte principale marron foncé */
+    }
+    
+    .reservation-form {
+        background-color: #8b5e3c; /* Couleur de fond marron pour le formulaire */
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* Centrer le contenu du formulaire */
+        margin: 0 auto;
+        max-width: 600px; /* Ajustement de la largeur maximale */
+        color: #f3f1e7; /* Couleur du texte clair */
+    }
+    
+    h1 {
+        color: #4d2e0f; /* Couleur du titre */
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+    }
+    
+    .table th, .table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .table th {
+        background-color: #8b5e3c; /* Couleur de fond des en-têtes */
+        color: #f3f1e7; /* Couleur du texte des en-têtes */
+    }
+    
+    .table td {
+        background-color: #f3f1e7; /* Couleur de fond des cellules */
+        color: #4d2e0f; /* Couleur du texte des cellules */
+    }
+    
+    .btn {
+        background-color: #4d2e0f; /* Couleur de fond des boutons */
+        color: #f3f1e7; /* Couleur du texte des boutons */
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 3px;
+        margin-right: 5px;
+    }
+    
+    .btn-danger {
+        background-color: #a23e3e; /* Couleur de fond des boutons de danger */
+    }
+    
+    .btn:hover {
+        background-color:hwb(0 18% 49%); /* Couleur de fond des boutons au survol */
+    }
+    
+    .btn-danger:hover {
+        background-color: hwb(0 18% 49%); /* Couleur de fond des boutons de danger au survol */
+    }
+</style>
+ 
+{% endblock %}
+
+{% block body %}
+    <h1>Mes Réservations</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Date d'arrivée</th>
+                <th>Date de sortie</th>
+                <th>Prix</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservation %}
+                <tr>
+                    <td>{{ reservation.hotel.nom }}</td>
+                    <td>{{ reservation.hotel.adresse }}</td>
+                    <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
+                    <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
+                    <td>{{ reservation.hotel.prix }}</td>
+                    <td>
+ 
+
+                        <form method="post" action="{{ path('edit_reservation', {'id': reservation.id}) }}" style="display:inline-block;">
+                            <input type="hidden" name="_token" value="">
+                            <button type="submit" class="btn btn-danger">modifier</button>
+                        </form>
+                        <form method="post" action="{{ path('delete_reservation', {'id': reservation.id}) }}" style="display:inline-block;">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
+    <button type="submit" class="btn btn-danger">Supprimer</button>
+</form>
+
+
+           <form method="post" action="{{ path('payment_new', {'reservationId': reservation.id, 'type': 'hotel'}) }}" style="display:inline-block;">
+    <input type="hidden" name="_token" value="{{ csrf_token('payement' ~ reservation.id) }}">
+    <button type="submit" class="btn btn-danger">Payé</button>
+</form>
+
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -21,27 +21,7 @@ class PaymentType extends AbstractType
             ->add('numtel')
             ->add('methodePayement')
             ->add('numCarte')
-            ->add('codeSecurite')
-            ->add('prixTotal')
-            ->add('payement_hotel_id', EntityType::class, [
-                'class' => ReservationHotel::class,
-                'choice_label' => 'name',
-                'label' => 'Salle de classe',
-                'placeholder' => 'Sélectionnez une salle de classe',
-            ])     
-                ->add('payement_flight_id', EntityType::class, [
-                'class' => ReservationFlight::class,
-                'choice_label' => 'name',
-                'label' => 'Salle de classe',
-                'placeholder' => 'Sélectionnez une salle de classe',
-            ])
-                      ->add('peyement_tour_id', EntityType::class, [
-                'class' => ReservationTour::class,
-                'choice_label' => 'name',
-                'label' => 'Salle de classe',
-                'placeholder' => 'Sélectionnez une salle de classe',
-            ]);
-        ;
+            ->add('codeSecurite');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

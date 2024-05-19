@@ -54,19 +54,19 @@ class Payement
 
     /**
      * @ORM\OneToOne(targetEntity=ReservationFlight::class, inversedBy="payement", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $payementFlight;
 
     /**
      * @ORM\OneToOne(targetEntity=ReservationHotel::class, inversedBy="payement", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $payementHotel;
 
     /**
      * @ORM\OneToOne(targetEntity=ReservationTour::class, inversedBy="payement", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $peyementTour;
 

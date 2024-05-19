@@ -27,7 +27,7 @@ class TourPackage
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $decription;
+    private $description;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0)
@@ -63,12 +63,12 @@ class TourPackage
 
     public function getDescription(): ?string
     {
-        return $this->decription;
+        return $this->description;
     }
 
     public function setDescription(string $decription): self
     {
-        $this->decription = $decription;
+        $this->description = $decription;
 
         return $this;
     }

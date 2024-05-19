@@ -1,0 +1,14 @@
+{# hotel/reservation_details.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la Réservation{% endblock %}
+
+{% block body %}
+    <h1>Détails de la Réservation</h1>
+    <p><strong>Hôtel :</strong> {{ reservation.hotel.nom }}</p>
+    <p><strong>Date de début :</strong> {{ reservation.dateDebut|date('Y-m-d') }}</p>
+    <p><strong>Date de fin :</strong> {{ reservation.dateFin|date('Y-m-d') }}</p>
+    <p><strong>Nombre de chambres :</strong> {{ reservation.nbrChambre }}</p>
+    <p><strong>Nombre de personnes :</strong> {{ reservation.nbrPersonne }}</p>
+{% endblock %}

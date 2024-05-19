@@ -1,8 +1,17 @@
-
 {% block title %}Reserve Tour Package{% endblock %}
 
 {% block body %}
-    <h1>Reserve Tour Package</h1>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Other custom styles can go here */
+    </style>
+
+    <h1 class="mb-4">Reserve Tour Package</h1>
 
     <h2>Tour Package Details</h2>
     <p><strong>Name:</strong> {{ tourPackage.nom }}</p>
@@ -11,9 +20,15 @@
 
     <h2>Modify Reservation Details</h2>
     {{ form_start(form) }}
-    {{ form_row(form.dateDepart) }}
-    {{ form_row(form.dateFin) }}
-    {{ form_row(form.nbrPersonne) }}
+    <div class="form-group">
+        {{ form_row(form.dateDepart, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.nbrPersonne, {'attr': {'class': 'form-control'}}) }}
+    </div>
 
     <div>
         <p><strong>Total Price:</strong> <span id="totalPrice">0</span> €</p>

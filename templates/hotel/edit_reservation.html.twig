@@ -1,0 +1,31 @@
+
+
+{% block title %}Modifier Réservation{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    
+{% endblock %}
+
+{% block body %}
+ 
+
+    <h1 class="page-title">Modifier votre Réservation</h1>
+
+    <div class="reservation-form">
+        <h2>Détails de la Réservation</h2>
+        <p><strong>Nom :</strong> {{ reservation.hotel.nom }}</p>
+        <p><strong>Adresse :</strong> {{ reservation.hotel.adresse }}</p>
+        <p><strong>Prix :</strong> {{ reservation.hotel.prix }}</p>
+
+        <h2>Modifier la Réservation</h2>
+        {{ form_start(form) }}
+        {{ form_row(form.dateDebut, {'label': 'Date de début'}) }}
+        {{ form_row(form.dateFin, {'label': 'Date de fin'}) }}
+        {{ form_row(form.nbrChambre, {'label': 'Nombre de chambres'}) }}
+        {{ form_row(form.nbrPersonne, {'label': 'Nombre de personnes'}) }}
+
+        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

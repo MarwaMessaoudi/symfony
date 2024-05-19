@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Réservations{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Ajout de styles spécifiques pour cette page */
+        .reservation-form {
+            background-color: #010000;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Center align the form content */
+            margin: 0 auto;
+            max-width: 600px; /* Ajustement de la largeur maximale */
+            color: #eaeaec; /* Couleur du texte */
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Mes Réservations</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Date d'arrivée</th>
+                <th>Date de sortie</th>
+                <th>Prix</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservations in reservation %}
+                <tr>
+                    <td>{{ reservation.hotel.nom }}</td>
+                    <td>{{ reservation.hotel.adresse }}</td>
+                    <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
+                    <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
+                    <td>{{ reservation.hotel.prix }}</td>
+                    <td>
+                        <a href="{{ path('reservation_modifier', {'id': reservation.id}) }}">Modifier la réservation</a>
+                        <form method="post" action="{{ path('delete_reservation', {id: reservation.id}) }}" style="display:inline-block;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

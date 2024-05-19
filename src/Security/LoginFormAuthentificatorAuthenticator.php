@@ -51,12 +51,16 @@ class LoginFormAuthentificatorAuthenticator extends AbstractFormLoginAuthenticat
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
+            'tour_package_id' => $request->request->get('tour_package_id'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
             $credentials['email']
         );
-
+    
+        // Store the TourPackage ID in the session
+        $request->getSession()->set('tour_package_id', $credentials['tour_package_id']);
+    
         return $credentials;
     }
 
@@ -94,14 +98,21 @@ class LoginFormAuthentificatorAuthenticator extends AbstractFormLoginAuthenticat
         $user = $token->getUser();
     
         if ($user instanceof UserInterface) {
-            if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
-                return new RedirectResponse($this->urlGenerator->generate('admin_dashboard')); // Changez 'admin_dashboard' par votre route admin
+            $session = $request->getSession();
+            $targetUrl = $this->getTargetPath($session, $providerKey);
+    
+            if ($targetUrl) {
+                return new RedirectResponse($targetUrl);
             }
     
-            return new RedirectResponse($this->urlGenerator->generate('client_dashboard')); // Changez 'client_dashboard' par votre route client
+            if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+                return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
+            }
+    
+            return new RedirectResponse($this->urlGenerator->generate('client_dashboard'));
         }
     
-        // Par défaut, redirige vers la page d'accueil
+        // By default, redirect to the home page
         return new RedirectResponse($this->urlGenerator->generate('home'));
     }
     

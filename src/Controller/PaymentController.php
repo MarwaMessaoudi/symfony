@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\ReservationTour;
+use App\Entity\ReservationHotel;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,16 +20,30 @@ class PaymentController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $reservationId = $request->query->get('reservationId');
-        $reservation = $entityManager->getRepository(ReservationTour::class)->find($reservationId);
+        $reservationType = $request->query->get('type');
+
+        if ($reservationType === 'hotel') {
+            $reservation = $entityManager->getRepository(ReservationHotel::class)->find($reservationId);
+        } else if ($reservationType === 'tour') {
+            $reservation = $entityManager->getRepository(ReservationTour::class)->find($reservationId);
+        } else {
+            $this->addFlash('error', 'Invalid reservation type.');
+            return $this->redirectToRoute('home');
+        }
 
         if (!$reservation) {
             $this->addFlash('error', 'Reservation not found.');
-            return $this->redirectToRoute('tourpackage_list');
+            return $this->redirectToRoute('home');
         }
 
         $payment = new Payement();
-        $payment->setPrixTotal($reservation->getTotal());
-        $payment->setPeyementTour($reservation);
+        if ($reservationType === 'hotel') {
+            $payment->setPayementHotel($reservation);
+            $payment->setPrixTotal($reservation->getTotal());
+        } else {
+            $payment->setPeyementTour($reservation);
+            $payment->setPrixTotal($reservation->getTotal());
+        }
 
         $form = $this->createForm(PaymentType::class, $payment);
 
@@ -52,6 +67,6 @@ class PaymentController extends AbstractController
      */
     public function success(): Response
     {
-        return $this->render('payement/success.html.twig');
+        return $this->render('payment/success.html.twig');
     }
 }

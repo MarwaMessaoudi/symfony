@@ -1,0 +1,105 @@
+{% block title %}{% endblock %}
+
+{% block body %}
+<style>
+    /* Additional styles */
+    /* Your additional styles can go here */
+    /* For example: */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4ffe0;
+    }
+    .form-container {
+        background-color: #f9f9f9; /* Light gray background */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px; /* Limit the width */
+        width: 100%; /* Ensure responsiveness */
+    }
+    .form-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .form-header img {
+        max-width: 100px;
+    }
+    .form-header h1 {
+        margin: 0;
+        color: #7c9e3d; /* Form title color */
+    }
+    .form-label {
+        color: #555; /* Dark gray label text color */
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .form-textbox {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd; /* Light gray border color */
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #f9f9f9; /* Match form container background */
+        margin-bottom: 10px; /* Add margin between inputs */
+    }
+    .form-textbox:focus {
+        border-color: #7c9e3d; /* Change border color on focus */
+    }
+    .submit-button {
+        background-color: #4caf50; /* Green button color */
+        color: white; /* White text color */
+        border-radius: 6px; /* Rounded corners */
+        transition: background-color 0.3s; /* Smooth transition */
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .submit-button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+</style>
+
+<div class="form-container">
+    <div class="form-header">
+        <img src="{{ asset('imag/cap.png') }}" alt="Logo">
+        <h1>Formulaire de paiement</h1>
+    </div>
+
+    <h2>Reservation Details</h2>
+    <p><strong>Name:</strong> {{ reservation.tourPackage.nom }}</p>
+    <p><strong>Description:</strong> {{ reservation.tourPackage.description }}</p>
+    <p><strong>Start Date:</strong> {{ reservation.dateDepart|date('Y-m-d') }}</p>
+    <p><strong>End Date:</strong> {{ reservation.dateFin|date('Y-m-d') }}</p>
+    <p><strong>Number of Persons:</strong> {{ reservation.nbrPersonne }}</p>
+    <p><strong>Total Price:</strong> {{ reservation.total }} €</p>
+
+    {{ form_start(form) }}
+
+    <label class="form-label">Nom prénom</label>
+    {{ form_widget(form.NomPrenom, {'attr': {'class': 'form-textbox'}}) }}
+
+    <label class="form-label">Adresse</label>
+    {{ form_widget(form.adresse, {'attr': {'class': 'form-textbox'}}) }}
+
+    <label class="form-label">Téléphone</label>
+    {{ form_widget(form.numtel, {'attr': {'class': 'form-textbox'}}) }}
+
+    <label class="form-label">Méthode de paiement</label>
+    {{ form_widget(form.methodePayement, {'attr': {'class': 'form-textbox'}}) }}
+
+    <label class="form-label">Numéro de carte</label>
+    {{ form_widget(form.numCarte, {'attr': {'class': 'form-textbox'}}) }}
+
+    <label class="form-label">Code de sécurité</label>
+    {{ form_widget(form.codeSecurite, {'attr': {'class': 'form-textbox'}}) }}
+
+    <button type="submit" class="submit-button">Confirmer le paiement</button>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}
