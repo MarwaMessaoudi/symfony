@@ -1,56 +1,94 @@
 {% block title %}Reserve Tour Package{% endblock %}
 
-{% block body %}
+{% block stylesheets %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css1/style.css') }}">
     <style>
-        /* Custom styles */
-        .form-group {
-            margin-bottom: 20px;
+.transparent-background {
+    background-color: rgba(255, 255, 255, 0.5); /* White with 50% opacity */
+    border: none; /* Remove border if any */
+    padding: 20px; /* Adjust padding as needed */
+    border-radius: 10px; /* Optional: adds rounded corners */
+}
+
+.smaller-block {
+    max-width: 800px; /* Adjust width as needed */
+    margin: 0 auto; /* Center the block */
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<div id="booking" class="section">
+    <div class="section-center">
+        <div class="container">
+            <div class="row">
+                <div class="booking-form smaller-block"> <!-- Added class here -->
+                    <div class="col-md-12"> <!-- Changed to full width to fit smaller block -->
+                        <div class="form-header">
+                            <h2>Book Now</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12"> <!-- Changed to full width to fit smaller block -->
+                        <div class="card mb-4 transparent-background"> <!-- Added class here -->
+                            <div class="card-body">
+                                <h2 class="card-title">Tour Package Details</h2>
+                                <p class="card-text"><strong>Name:</strong> {{ tourPackage.nom }}</p>
+                                <p class="card-text"><strong>Description:</strong> {{ tourPackage.description }}</p>
+                                <p class="card-text"><strong>Price per person:</strong> <span id="pricePerPerson">{{ tourPackage.prix }}</span> €</p>
+                            </div>
+                        </div>
+
+                        <form method="post" action="{{ path('reserve_tourpackage', {'id': tourPackage.id}) }}" class="transparent-background"> <!-- Added class here -->
+                            {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form_row(form.dateDepart, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ form_row(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        {{ form_row(form.nbrPersonne, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div>
+                                        <p><strong>Total Price:</strong> <span id="totalPrice">0</span> €</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-btn">
+                                <button type="submit" class="btn btn-primary">Reserve</button>
+                            </div>
+                            {{ form_end(form) }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pricePerPerson = parseFloat(document.getElementById('pricePerPerson').textContent);
+        const nbrPersonneInput = document.querySelector('input[name="reservation_tour[nbrPersonne]"]');
+        const totalPriceElement = document.getElementById('totalPrice');
+
+        function updateTotalPrice() {
+            const nbrPersonne = parseInt(nbrPersonneInput.value, 10) || 0; // Fallback to 0 if input is invalid
+            const totalPrice = pricePerPerson * nbrPersonne;
+            totalPriceElement.textContent = totalPrice.toFixed(2);
         }
 
-        /* Other custom styles can go here */
-    </style>
-
-    <h1 class="mb-4">Reserve Tour Package</h1>
-
-    <h2>Tour Package Details</h2>
-    <p><strong>Name:</strong> {{ tourPackage.nom }}</p>
-    <p><strong>Description:</strong> {{ tourPackage.description }}</p>
-    <p><strong>Price per person:</strong> <span id="pricePerPerson">{{ tourPackage.prix }}</span> €</p>
-
-    <h2>Modify Reservation Details</h2>
-    {{ form_start(form) }}
-    <div class="form-group">
-        {{ form_row(form.dateDepart, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class="form-group">
-        {{ form_row(form.dateFin, {'attr': {'class': 'form-control'}}) }}
-    </div>
-    <div class="form-group">
-        {{ form_row(form.nbrPersonne, {'attr': {'class': 'form-control'}}) }}
-    </div>
-
-    <div>
-        <p><strong>Total Price:</strong> <span id="totalPrice">0</span> €</p>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Reserve</button>
-    {{ form_end(form) }}
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const pricePerPerson = parseFloat(document.getElementById('pricePerPerson').textContent);
-            const nbrPersonneInput = document.querySelector('input[name="reservation_tour[nbrPersonne]"]');
-            const totalPriceElement = document.getElementById('totalPrice');
-
-            function updateTotalPrice() {
-                const nbrPersonne = parseInt(nbrPersonneInput.value, 10);
-                const totalPrice = pricePerPerson * nbrPersonne;
-                totalPriceElement.textContent = totalPrice.toFixed(2);
-            }
-
-            nbrPersonneInput.addEventListener('input', updateTotalPrice);
-            updateTotalPrice(); // Initialize total price on page load
-        });
-    </script>
+        nbrPersonneInput.addEventListener('input', updateTotalPrice);
+        updateTotalPrice(); // Initialize total price on page load
+    });
+</script>
 {% endblock %}
