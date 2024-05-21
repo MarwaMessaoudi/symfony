@@ -1,0 +1,113 @@
+
+
+{% block stylesheets %}
+<style>
+    body {
+        background-color: #f3f1e7;
+        color: #4d2e0f;
+    }
+
+    .reservation-form {
+        background-color: #8b5e3c;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        max-width: 600px;
+        color: #f3f1e7;
+    }
+
+    h1 {
+        color: #4d2e0f;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table th {
+        background-color: #8b5e3c;
+        color: #f3f1e7;
+    }
+
+    .table td {
+        background-color: #f3f1e7;
+        color: #4d2e0f;
+    }
+
+    .btn {
+        background-color: #4d2e0f;
+        color: #f3f1e7;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 3px;
+        margin-right: 5px;
+    }
+
+    .btn-danger {
+        background-color: #a23e3e;
+    }
+
+    .btn:hover {
+        background-color: hwb(0 18% 49%);
+    }
+
+    .btn-danger:hover {
+        background-color: hwb(0 18% 49%);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<h1>Mes Réservations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Arrival Date</th>
+            <th>Release date</th>
+            <th>Person nombre</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.tourPackage.nom }}</td>
+                <td>{{ reservation.dateDepart ? reservation.dateDepart|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.nbrPersonne }}</td>
+                <td>{{ reservation.total }}</td>
+                <td>
+                    <form method="post" action="{{ path('modif_reservationtour', {'id': reservation.id}) }}" style="display:inline-block;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('edit' ~ reservation.id) }}">
+                        <button type="submit" class="btn">Update</button>
+                    </form>
+                  <form method="post" action="{{ path('delete_reservationTour', {'id': reservation.id}) }}" style="display:inline-block;">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
+
+                    <form method="post" action="{{ path('payment_new', {'reservationId': reservation.id}) }}" style="display:inline-block;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('payment' ~ reservation.id) }}">
+                        <button type="submit" class="btn">Pay</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

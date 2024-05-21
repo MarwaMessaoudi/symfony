@@ -1,0 +1,98 @@
+
+
+{% block title %}Nouvelle Review{% endblock %}
+
+{% block body %}
+    <style>
+        .form-section {
+            background-color: #cce6ff; /* Light blue background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+        }
+        .form-header-group {
+            margin-bottom: 20px;
+        }
+        .form-input-wide {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            background-color: #f5fdff ;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            background-color: #007BFF; /* Blue submit button color */
+            border-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .btn-submit:hover {
+            background-color: #f5fdff ; /* Darker blue on hover */
+            border-color: #0056b3;
+        }
+        .h1-review {
+            color: #004080; /* Blue color for h1 */
+            margin-bottom: 30px; /* Increased bottom margin */
+            font-size: 32px; /* Larger font size */
+            text-transform: uppercase; /* Uppercase text */
+            font-weight: bold; /* Bold text */
+        }
+        .label-commentaire {
+            color: #004080; /* Blue color for label */
+            font-weight: bold; /* Bold text */
+            margin-bottom: 10px; /* Increased bottom margin */
+            font-size: 18px; /* Larger font size */
+        }
+        .form-control-commentaire {
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #004080;
+        }
+    </style>
+
+    <h1 class="h1-review">Your Review</h1> <!-- Improved h1 styling -->
+
+{% if app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ app.flashes('success')[0] }}
+    </div>
+{% endif %}
+    {{ form_start(form) }}
+    <div class="form-section page-section">
+        <div id="cid_1" class="form-input-wide" data-type="control_head">
+            <div class="form-header-group header-large">
+               <label for="input_15" class="label-commentaire">Commentaire</label> <!-- "Commentaire" label -->
+            </div>
+        </div>
+        
+        <div id="cid_15" class="form-input-wide" data-layout="full">
+            {{ form_widget(form.commentaire, {'attr': {'class': 'form-control form-control-commentaire'}}) }}
+        </div>
+        
+        <div class="form-line" data-type="control_button" id="id_2">
+            <div id="cid_2" class="form-input-wide" data-layout="full">
+                <div data-align="auto" class="form-buttons-wrapper form-buttons-auto jsTest-button-wrapperField">
+                    {{ form_row(form.submit, {'attr': {'class': 'btn-submit'}}) }} <!-- Blue submit button -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{ form_end(form) }}
+    {# templates/votre_template.twig #}
+
+
+
+{% endblock %}

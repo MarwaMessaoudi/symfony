@@ -4,12 +4,9 @@ namespace App\Controller;
 
 use App\Form\ReservationTourType;
 use Symfony\Component\Security\Core\Security;
-
 use App\Entity\TourPackage;
 use App\Entity\ReservationTour;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\TourPackageType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
@@ -19,14 +16,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class TourPackageController extends AbstractController
-{    use TargetPathTrait;
+{
+    use TargetPathTrait;
 
     private $security;
 
-public function __construct(Security $security)
-{
-    $this->security = $security;
-}
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
 
     /**
      * @Route("/tour/package", name="app_tour_package")
@@ -38,9 +36,7 @@ public function __construct(Security $security)
         ]);
     }
 
-
-
- /**
+    /**
      * @Route("/list", name="tourpackage_list")
      */
     public function list(): Response
@@ -103,4 +99,63 @@ public function __construct(Security $security)
             'form' => $form->createView(),
             'tourPackage' => $tourPackage,
         ]);
+    }
+
+    /**
+     * @Route("/tourmodifier", name="client_reservation")
+     */
+    public function clientReservation(EntityManagerInterface $entityManager): Response
+    {
+        $client = $this->getUser();
+        $reservations = $entityManager->getRepository(ReservationTour::class)->findBy(['client' => $client]);
+    
+        return $this->render('tourPackage/client_reservations.html.twig', [
+            'reservations' => $reservations,
+        ]);
+    }
+
+    /**
+     * @Route("/Reservation/edit/{id}", name="modif_reservationtour", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, ReservationTour $reservationTour, EntityManagerInterface $em): Response
+    {
+        $form = $this->createForm(ReservationTourType::class, $reservationTour);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Recalculate the total price
+            $nbrPersonne = $form->get('nbrPersonne')->getData();
+            $total = $reservationTour->getTourPackage()->getPrix() * $nbrPersonne;
+            $reservationTour->setTotal($total);
+    
+            // Save the changes
+            $em->flush();
+    
+            $this->addFlash('success', 'ReservationTour updated successfully');
+    
+            return $this->redirectToRoute('client_reservation');
+        }
+    
+        return $this->render('tourPackage/edittour.html.twig', [
+            'form' => $form->createView(),
+            'reservationTour' => $reservationTour,
+        ]);
+    }
+    /**
+     * @Route("/reservationTour/delete/{id}", name="delete_reservationTour", methods={"POST"})
+     */
+    public function deleteReservationTour(Request $request, ReservationTour $reservationTour, EntityManagerInterface $em, CsrfTokenManagerInterface $csrfTokenManager): Response
+    {
+        $token = $request->request->get('_token');
+    
+        if (!$csrfTokenManager->isTokenValid(new CsrfToken('delete' . $reservationTour->getId(), $token))) {
+            throw $this->createAccessDeniedException('Invalid CSRF token');
+        }
+    
+        $em->remove($reservationTour);
+        $em->flush();
+    
+        $this->addFlash('success', 'ReservationTour deleted successfully');
+    
+        return $this->redirectToRoute('client_reservation');
     }}

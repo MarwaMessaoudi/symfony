@@ -100,7 +100,7 @@ body {
 }
 
 .header {
-  background-image: url("assets/header.jpg");
+  background-image: url("assets/home.jpg");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -358,7 +358,7 @@ nav {
     minmax(1rem, 1fr)
     minmax(0, var(--max-width))
     minmax(1rem, 1fr);
-  background-image: url("assets/explore.jpg");
+  background-image: url("assets/home.jpg");
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;

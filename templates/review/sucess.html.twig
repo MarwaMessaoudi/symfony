@@ -1,0 +1,9 @@
+
+
+
+
+{% if app.flashes('success') is not empty %}
+    <div class="alert alert-success">
+        {{ app.flashes('success')[0] }}
+    </div>
+{% endif %}

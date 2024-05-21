@@ -1,233 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('styles.css') }}" />
     <title>{% block title %}Web Design Mastery | Rayal Park{% endblock %}</title>
-  </head>
+</head>
 
-  <body>
+<body>
     <header class="header">
-      <nav>
-        <div class="nav__bar">
-          <div class="logo">
-            <a href="#"><img src="{{ asset('assets/logo.png') }}" alt="logo" /></a>
-          </div>
-          <div class="nav__menu__btn" id="menu-btn">
-            <i class="ri-menu-line"></i>
-          </div>
+        <nav>
+            <div class="nav__bar">
+                <div class="logo">
+                    <a href="#"><img src="{{ asset('assets/logo.png') }}" alt="logo" /></a>
+                </div>
+                <div class="nav__menu__btn" id="menu-btn">
+                    <i class="ri-menu-line"></i>
+                </div>
+            </div>
+            <ul class="nav__links" id="nav-links">
+                <li><a href="#home">Accueil</a></li>
+                <li><a href="#hotel">Hôtel</a></li>
+                <li><a href="#Packagetour">PackageTour</a></li>
+                <li><a href="#explore">Flight</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="btn nav__btn">S'inscrire</button>
+        </nav>
+        <div class="section__container header__container" id="home">
+            <p>Simple - Unique - Convivial</p>
+            <h1>Découvrir le monde<br /></h1>
         </div>
-        <ul class="nav__links" id="nav-links">
-          <li><a href="#home">Accueil</a></li>
-          <li><a href="#about">Hôtel</a></li>
-          <li><a href="#service">PackageTour</a></li>
-          <li><a href="#explore">Flight</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <button class="btn nav__btn">S'inscrire</button>
-      </nav>
-      <div class="section__container header__container" id="home">
-        <p>Simple - Unique - Convivial</p>
-        <h1>Découvrir le monde<br /></h1>
-      </div>
     </header>
 
     {% block body %}
     <section class="section__container booking__container">
-      <form action="/" class="booking__form">
-        <div class="input__group">
-          <span><i class="ri-calendar-2-fill"></i></span>
-          <div>
-            <label for="check-in">CHECK-IN</label>
-            <input type="text" placeholder="Enregistrement" />
-          </div>
-        </div>
-        <div class="input__group">
-          <span><i class="ri-calendar-2-fill"></i></span>
-          <div>
-            <label for="check-out">VÉRIFIER</label>
-            <input type="text" placeholder="Check Out" />
-          </div>
-        </div>
-        <div class="input__group">
-          <span><i class="ri-user-fill"></i></span>
-          <div>
-            <label for="guest">INVITÉ</label>
-            <input type="text" placeholder="Guest" />
-          </div>
-        </div>
-        <div class="input__group input__btn">
-          <button class="btn">Vérifier</button>
-        </div>
-      </form>
+        <!-- Booking Section Content -->
     </section>
 
     <section class="section__container about__container" id="about">
-      <div class="about__image">
-        <img src="{{ asset('assets/about.jpg') }}" alt="about" />
-      </div>
-      <div class="about__content">
-        <p class="section__subheader">À PROPOS DE NOUS</p>
-        <h2 class="section__header">Les meilleures vacances commencent ici !</h2>
-        <p class="section__description">
-          En mettant l'accent sur un hébergement de qualité, des expériences personnalisées et une réservation transparente, notre plateforme est dédiée à garantir que chaque voyageur embarque pour ses vacances de rêve en toute confiance et excitation.
-        </p>
-        <div class="about__btn">
-          <button class="btn">En savoir plus</button>
+        <div class="about__image">
+            <img src="{{ asset('assets/home.jpg') }}" alt="about" />
         </div>
-      </div>
+        <div class="about__content">
+            <p class="section__subheader">À PROPOS DE NOUS</p>
+            <h2 class="section__header">Les meilleures vacances commencent ici !</h2>
+            <p class="section__description">
+                En mettant l'accent sur un hébergement de qualité, des expériences personnalisées et une réservation transparente, notre plateforme est dédiée à garantir que chaque voyageur embarque pour ses vacances de rêve en toute confiance et excitation.
+            </p>
+            <div class="about__btn">
+                <button class="btn">En savoir plus</button>
+            </div>
+        </div>
     </section>
 
     <section class="section__container room__container" id="rooms">
-      <p class="section__subheader">Nos Hôtels</p>
-      <h2 class="section__header">Le Moment de Repos le Plus Mémorable Commence Ici.</h2>
-      
-      {% for hotel in hotels %}
-        <div class="image-container">
-          {% if hotel.id == 1 %}
-            <img src="https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg" alt="Image 1" />
-          {% elseif hotel.id == 2 %}
-            <img src="https://hotelvinum.de/wp-content/uploads/2021/10/besthotelsites-1.jpg" alt="Image 2" />
-          {% elseif hotel.id == 3 %}
-            <img src="https://media-cdn.tripadvisor.com/media/photo-s/0d/48/bb/91/kempinski-summerland.jpg" alt="Image 3" />
-          {% endif %}
-          <br>
-          Nom: {{ hotel.nom }} <br>
-          Adresse: {{ hotel.adresse }} <br>
-          Prix: {{ hotel.prix }} <br>
-          <br>
-          <a href="{{ path('reserve_hotel', {id: hotel.id}) }}" class="btn btn-primary">Réserver</a>
-          <br><br>
-        </div>
-      {% endfor %}
+        <p class="section__subheader">Nos Hôtels</p>
+        <h2 class="section__header">Le Moment de Repos le Plus Mémorable Commence Ici.</h2>
+        {% for hotel in hotels %}
+            <div class="image-container" id="hotel">
+                {% if hotel.id == 1 %}
+                    <img src="https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg" alt="Image 1" />
+                {% elseif hotel.id == 2 %}
+                    <img src="https://hotelvinum.de/wp-content/uploads/2021/10/besthotelsites-1.jpg" alt="Image 2" />
+                {% elseif hotel.id == 3 %}
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/0d/48/bb/91/kempinski-summerland.jpg" alt="Image 3" />
+                {% endif %}
+                <br>
+                Nom: {{ hotel.nom }} <br>
+                Adresse: {{ hotel.adresse }} <br>
+                Prix: {{ hotel.prix }} <br>
+                <br>
+                <a href="{{ path('reserve_hotel', {id: hotel.id}) }}" class="btn btn-primary">Réserver</a>
+                <br><br>
+            </div>
+        {% endfor %}
+    </section>
+
+    <section class="section__container room__container" id="rooms">
+        <p class="section__subheader">Nos TourPackages</p>
+        <h2 class="section__header">Le Moment de Repos le Plus Mémorable Commence Ici.</h2>
+        {% for tourPackage in tourPackages %}
+            <div class="image-container" id="Packagetour">
+                {% if tourPackage.id == 1 %}
+                    <img src="https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg" alt="Image 1" />
+                {% elseif tourPackage.id == 2 %}
+                    <img src="https://hotelvinum.de/wp-content/uploads/2021/10/besthotelsites-1.jpg" alt="Image 2" />
+                {% elseif tourPackage.id == 3 %}
+                    <img src="https://media-cdn.tripadvisor.com/media/photo-s/0d/48/bb/91/kempinski-summerland.jpg" alt="Image 3" />
+                {% endif %}
+                <br>
+                Nom: {{ tourPackage.nom }} <br>
+                Description: {{ tourPackage.description }} <br>
+                Prix: {{ tourPackage.prix }} <br>
+                <br>
+                <a href="{{ path('reserve_tourpackage', {id: tourPackage.id}) }}" class="btn btn-primary">Réserver</a>
+                <br><br>
+            </div>
+        {% endfor %}
     </section>
 
 
 
- <section class="section__container room__container" id="rooms">
-      <p class="section__subheader">Nos TourPackages</p>
-      <h2 class="section__header">Le Moment de Repos le Plus Mémorable Commence Ici.</h2>
-      
-      {% for tourPackage in tourPackages %}
-        <div class="image-container">
-          {% if tourPackage.id == 1 %}
-            <img src="https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg" alt="Image 1" />
-          {% elseif tourPackage.id == 2 %}
-            <img src="https://hotelvinum.de/wp-content/uploads/2021/10/besthotelsites-1.jpg" alt="Image 2" />
-          {% elseif tourPackage.id == 3 %}
-            <img src="https://media-cdn.tripadvisor.com/media/photo-s/0d/48/bb/91/kempinski-summerland.jpg" alt="Image 3" />
-          {% endif %}
-          <br>
-          Nom: {{ tourPackage.nom }} <br>
-          Adresse: {{ tourPackage.description }} <br>
-          Prix: {{ tourPackage.prix }} <br>
-          <br>
-          <a href="{{ path('reserve_tourpackage', {id: tourPackage.id}) }}" class="btn btn-primary">Réserver</a>
-          <br><br>
+
+
+
+
+
+    <section class="section__container review__container" id="review">
+        <h1 class="h1-review">Submit Your feedback</h1>
+        <!-- Review Form Section -->
+        <style>
+            .form-section {
+                background-color: #ffcab0; /* Light blue background */
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+            }
+            .form-header-group {
+                margin-bottom: 20px;
+            }
+            .form-input-wide {
+                margin-bottom: 15px;
+            }
+            .form-control {
+                background-color: #fcfefe;
+                border: 1px solid #ddd;
+                padding: 10px;
+                border-radius: 5px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .btn-submit {
+                background-color: #007BFF; /* Blue submit button color */
+                border-color: #007BFF;
+                color: #fff;
+                padding: 10px 20px;
+                border-radius: 5px;
+                text-align: center;
+                display: inline-block;
+                cursor: pointer;
+                text-decoration: none;
+                font-size: 16px;
+                transition: background-color 0.3s, border-color 0.3s;
+            }
+            .btn-submit:hover {
+                background-color: #0056b3; /* Darker blue on hover */
+                border-color: #004080;
+            }
+            .h1-review {
+                color: #004080; /* Blue color for h1 */
+                margin-bottom: 30px; /* Increased bottom margin */
+                font-size: 32px; /* Larger font size */
+                text-transform: uppercase; /* Uppercase text */
+                font-weight: bold; /* Bold text */
+            }
+            .label-commentaire {
+                color: #004080; /* Blue color for label */
+                font-weight: bold; /* Bold text */
+                margin-bottom: 10px; /* Increased bottom margin */
+                font-size: 18px; /* Larger font size */
+            }
+            .form-control-commentaire {
+                padding: 15px;
+                font-size: 16px;
+                border-radius: 8px;
+                border: 1px solid #004080;
+            }
+        </style>
+        {{ form_start(form) }}
+        <div class="form-section page-section">
+            <div id="cid_1" class="form-input-wide" data-type="control_head">
+                <div class="form-header-group header-large">
+                    <label for="input_15" class="label-commentaire">Commentaire</label>
+                </div>
+            </div>
+            <div id="cid_15" class="form-input-wide" data-layout="full">
+                {{ form_widget(form.commentaire, {'attr': {'class': 'form-control form-control-commentaire'}}) }}
+            </div>
+            <div class="form-line" data-type="control_button" id="id_2">
+                <div id="cid_2" class="form-input-wide" data-layout="full">
+                    <div data-align="auto" class="form-buttons-wrapper form-buttons-auto jsTest-button-wrapperField">
+                        {{ form_row(form.submit, {'attr': {'class': 'btn-submit'}}) }}
+                    </div>
+                </div>
+            </div>
         </div>
-      {% endfor %}
+        {{ form_end(form) }}
     </section>
+
+
+
+
+
+
+
 
 
 
     <section class="service" id="service">
-      <div class="section__container service__container">
-        <div class="service__content">
-          <p class="section__subheader">SERVICES</p>
-          <h2 class="section__header">Strive Only For The Best.</h2>
-          <ul class="service__list">
-            <li>
-              <span><i class="ri-shield-star-line"></i></span>
-              High Class Security
-            </li>
-            <li>
-              <span><i class="ri-24-hours-line"></i></span>
-              24 Hours Room Service
-            </li>
-            <li>
-              <span><i class="ri-headphone-line"></i></span>
-              Conference Room
-            </li>
-            <li>
-              <span><i class="ri-map-2-line"></i></span>
-              Tourist Guide Support
-            </li>
-          </ul>
+        <div class="section__container service__container">
+            <div class="service__content">
+                <p class="section__subheader">SERVICES</p>
+                <h2 class="section__header">Strive Only For The Best.</h2>
+                <ul class="service__list">
+                    <li>
+                        <span><i class="ri-shield-star-line"></i></span>
+                        High Class Security
+                    </li>
+                    <li>
+                        <span><i class="ri-24-hours-line"></i></span>
+                        24 Hours Room Service
+                    </li>
+                    <li>
+                        <span><i class="ri-headphone-line"></i></span>
+                        Conference Room
+                    </li>
+                    <li>
+                        <span><i class="ri-map-2-line"></i></span>
+                        Tourist Guide Support
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </section>
 
     <section class="section__container banner__container">
-      <div class="banner__content">
-        <div class="banner__card">
-          <h4>25+</h4>
-          <p>Properties Available</p>
+        <div class="banner__content">
+            <div class="banner__card">
+                <h4>25+</h4>
+                <p>Properties Available</p>
+            </div>
+            <div class="banner__card">
+                <h4>350+</h4>
+                <p>Bookings Completed</p>
+            </div>
+            <div class="banner__card">
+                <h4>600+</h4>
+                <p>Happy Customers</p>
+            </div>
         </div>
-        <div class="banner__card">
-          <h4>350+</h4>
-          <p>Bookings Completed</p>
-        </div>
-        <div class="banner__card">
-          <h4>600+</h4>
-          <p>Happy Customers</p>
-        </div>
-      </div>
     </section>
 
     <section class="explore" id="explore">
-      <p class="section__subheader">EXPLORE</p>
-      <h2 class="section__header">What's New Today.</h2>
-      <div class="explore__bg">
-        <div class="explore__content">
-          <p class="section__description">10th MAR 2023</p>
-          <h4>A New Menu Is Available In Our Hotel.</h4>
-          <button class="btn">Continue</button>
+        <p class="section__subheader">EXPLORE</p>
+        <h2 class="section__header">What's New Today.</h2>
+        <div class="explore__bg">
+            <div class="explore__content">
+                <p class="section__description">10th MAR 2023</p>
+                <h4>A New Menu Is Available In Our Hotel.</h4>
+                <button class="btn">Continue</button>
+            </div>
         </div>
-      </div>
     </section>
 
     {% endblock %}
 
     <footer class="footer" id="contact">
-      <div class="section__container footer__container">
-        <div class="footer__col">
-          <div class="logo">
-            <a href="#home"><img src="{{ asset('assets/logo.png') }}" alt="logo" /></a>
-          </div>
-          <p class="section__description">
-            Découvrez un monde de confort, de luxe et d'aventure en explorant notre sélection d'hôtels, faisant de chaque instant de votre escapade vraiment extraordinaire.
-          </p>
+        <div class="section__container footer__container">
+            <div class="footer__col">
+                <div class="logo">
+                    <a href="#home"><img src="{{ asset('assets/logo.png') }}" alt="logo" /></a>
+                </div>
+                <p class="section__description">
+                    Découvrez un monde de confort, de luxe et d'aventure en explorant notre sélection d'hôtels, faisant de chaque instant de votre escapade vraiment extraordinaire.
+                </p>
+            </div>
+            <div class="footer__col">
+                <h4>LIENS RAPIDES</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Parcourir les destinations</a></li>
+                    <li><a href="#">Offres spéciales et forfaits</a></li>
+                    <li><a href="#">Types de chambres et commodités</a></li>
+                    <li><a href="#">Avis et évaluations des clients</a></li>
+                    <li><a href="#">Conseils et guides de voyage</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>NOS SERVICES</h4>
+                <ul class="footer__links">
+                    <li><a href="#">Service de conciergerie</a></li>
+                    <li><a href="#">Options de réservation flexibles</a></li>
+                    <li><a href="#">Transferts aéroport</a></li>
+                    <li><a href="#">Bien-être et loisirs</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4>CONTACTEZ-NOUS</h4>
+                <ul class="footer__links">
+                    <li><a href="mailto:plaisirvoyage@siteweb.com">plaisirvoyage@siteweb.com</a></li>
+                    <li><a href="tel:+21620235548">+216 2023 5548</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="footer__col">
-          <h4>LIENS RAPIDES</h4>
-          <ul class="footer__links">
-            <li><a href="#">Parcourir les destinations</a></li>
-            <li><a href="#">Offres spéciales et forfaits</a></li>
-            <li><a href="#">Types de chambres et commodités</a></li>
-            <li><a href="#">Avis et évaluations des clients</a></li>
-            <li><a href="#">Conseils et guides de voyage</a></li>
-          </ul>
-        </div>
-        <div class="footer__col">
-          <h4>NOS SERVICES</h4>
-          <ul class="footer__links">
-            <li><a href="#">Service de conciergerie</a></li>
-            <li><a href="#">Options de réservation flexibles</a></li>
-            <li><a href="#">Transferts aéroport</a></li>
-            <li><a href="#">Bien-être et loisirs</a></li>
-          </ul>
-        </div>
-        <div class="footer__col">
-          <h4>CONTACTEZ-NOUS</h4>
-          <ul class="footer__links">
-            <li><a href="mailto:plaisirvoyage@siteweb.com">plaisirvoyage@siteweb.com</a></li>
-            <li><a href="tel:+21620235548">+216 2023 5548</a></li>
-          </ul>
-        </div>
-      </div>
     </footer>
     <script src="{{ asset('script.js') }}"></script>
-  </body>
+</body>
 </html>

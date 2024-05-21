@@ -1,4 +1,3 @@
-
 {% block title %}Payment Success{% endblock %}
 
 {% block body %}
@@ -29,13 +28,30 @@
         .success-container .thank-you {
             font-weight: bold;
         }
+        .success-container .button-container {
+            margin-top: 20px;
+        }
+        .success-container .button-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            color: #fff;
+            background-color: #7c9e3d;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .success-container .button-container a:hover {
+            background-color: #6a8833;
+        }
     </style>
 
     <div class="success-container">
         <h1>Payment Successful!</h1>
         <p>Your payment has been successfully processed.</p>
         <p class="thank-you">Thank you for your purchase!</p>
-                <a href="{{ path('home') }}" class="home-button">Go to Home</a>
-
+        <div class="button-container">
+            <a href="{{ path('home') }}" class="home-button">Go to Home</a>
+            <a href="{{ path('client_reservation') }}" class="reservation-button">View Reservations</a>
+        </div>
     </div>
 {% endblock %}
